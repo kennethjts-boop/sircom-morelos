@@ -1,0 +1,92 @@
+/* SIRCOM Morelos — Design Tokens */
+
+:root {
+  /* Brand colors */
+  --sircom-ink: #0B2545;          /* Azul profundo institucional */
+  --sircom-ink-2: #143761;
+  --sircom-ink-3: #1F4A7A;
+  --sircom-civic: #1F7A57;        /* Verde protección civil */
+  --sircom-civic-soft: #E8F1EC;
+  --sircom-amber: #E8A21C;        /* Alerta preventiva */
+  --sircom-amber-soft: #FCF3DD;
+  --sircom-red: #C8362D;          /* Crítico */
+  --sircom-red-soft: #FBE9E7;
+  --sircom-violet: #5B4B8A;       /* Volcán/sismo */
+
+  /* Neutrals — cool institutional */
+  --sircom-bg: #F5F6F8;
+  --sircom-surface: #FFFFFF;
+  --sircom-surface-2: #FAFBFC;
+  --sircom-border: #E2E5EA;
+  --sircom-border-2: #CCD2DB;
+  --sircom-text: #0F1B2D;
+  --sircom-text-2: #4A5468;
+  --sircom-text-3: #7A8294;
+  --sircom-grid: #EAEDF1;
+
+  /* Type */
+  --sircom-sans: 'IBM Plex Sans', system-ui, -apple-system, Segoe UI, sans-serif;
+  --sircom-mono: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Radius / shadow */
+  --sircom-r-sm: 4px;
+  --sircom-r: 8px;
+  --sircom-r-lg: 12px;
+  --sircom-shadow-sm: 0 1px 2px rgba(11,37,69,0.06);
+  --sircom-shadow: 0 4px 16px rgba(11,37,69,0.08);
+  --sircom-shadow-lg: 0 12px 40px rgba(11,37,69,0.12);
+}
+
+/* Base typographic resets within sircom artboards */
+.sircom {
+  font-family: var(--sircom-sans);
+  font-feature-settings: "ss01", "cv01";
+  color: var(--sircom-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.005em;
+}
+.sircom .mono { font-family: var(--sircom-mono); }
+.sircom button { font-family: inherit; }
+
+/* Generic Morelos map silhouette helper – an abstract polygon */
+.sircom-map-fg { fill: none; stroke: currentColor; stroke-width: 1.4; }
+.sircom-map-bg { fill: currentColor; opacity: .06; }
+
+/* Subtle striped placeholder for "real photo" boxes */
+.sircom-photo {
+  background:
+    repeating-linear-gradient(135deg, rgba(11,37,69,0.07) 0 1px, transparent 1px 9px),
+    linear-gradient(180deg, #DCE3EC, #C9D3DF);
+  color: var(--sircom-ink);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 10px;
+  font-family: var(--sircom-mono);
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  border-radius: var(--sircom-r);
+}
+
+.sircom-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--sircom-mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--sircom-border);
+  background: var(--sircom-surface);
+  color: var(--sircom-text-2);
+}
+.sircom-pill.is-civic { color: var(--sircom-civic); border-color: rgba(31,122,87,.25); background: var(--sircom-civic-soft); }
+.sircom-pill.is-amber { color: #8a5d04; border-color: rgba(232,162,28,.4); background: var(--sircom-amber-soft); }
+.sircom-pill.is-red { color: var(--sircom-red); border-color: rgba(200,54,45,.3); background: var(--sircom-red-soft); }
+.sircom-pill.is-ink { color: var(--sircom-ink); border-color: rgba(11,37,69,.2); background: #EEF2F7; }
+
+.sircom-dot { width: 8px; height: 8px; border-radius: 999px; display: inline-block; }

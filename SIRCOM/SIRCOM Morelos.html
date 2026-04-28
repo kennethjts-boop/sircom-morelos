@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<title>SIRCOM Morelos · Sistema visual</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"/>
+<link rel="stylesheet" href="tokens.css"/>
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="sircom-icons.jsx"></script>
+<script type="text/babel" src="sircom-map.jsx"></script>
+<script type="text/babel" src="sircom-dashboard.jsx"></script>
+<script type="text/babel" src="sircom-mobile.jsx"></script>
+<script type="text/babel" src="sircom-brand.jsx"></script>
+<script type="text/babel" src="sircom-social.jsx"></script>
+
+<script type="text/babel">
+const { DesignCanvas, DCSection, DCArtboard, DCPostIt } = window;
+
+function App() {
+  return (
+    <DesignCanvas>
+      {/* INTRO */}
+      <DCSection id="intro" title="SIRCOM Morelos · Sistema visual" subtitle="Sistema de Inteligencia de Riesgos Comunitarios — propuesta visual completa">
+        <DCArtboard id="intro-cover" label="00 · Portada" width={880} height={520}>
+          <div className="sircom" style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #0B2545 0%, #143761 100%)', color: '#fff', padding: 56, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div style={{ position: 'absolute', right: -120, top: -100, opacity: .12 }}>
+              <window.MorelosMap size={520} stroke="#fff" strokeWidth={1}/>
+            </div>
+            <div style={{ position: 'absolute', right: 56, top: 80, opacity: .9 }}>
+              <window.Isotype variant="A" size={140} ink="#fff" accent="#1F7A57" amber="#E8A21C"/>
+            </div>
+            <div>
+              <div className="mono" style={{ fontSize: 11, color: '#E8A21C', letterSpacing: '.2em', textTransform: 'uppercase' }}>Sistema visual · v 1.0 · ABR 2026</div>
+              <div style={{ fontSize: 56, fontWeight: 500, letterSpacing: '-0.03em', marginTop: 16, lineHeight: 1, maxWidth: 560 }}>SIRCOM<br/><span style={{ fontWeight: 300 }}>Morelos</span></div>
+              <div style={{ fontSize: 18, color: 'rgba(255,255,255,.85)', marginTop: 16, maxWidth: 480, lineHeight: 1.4 }}>
+                Sistema de Inteligencia de Riesgos Comunitarios. Información que protege.
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end' }}>
+              <div style={{ flex: 1 }}>
+                <div className="mono" style={{ fontSize: 10, color: 'rgba(255,255,255,.6)', letterSpacing: '.12em', textTransform: 'uppercase' }}>Contenido</div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,.85)', marginTop: 8, lineHeight: 1.7, columnCount: 2, columnGap: 24 }}>
+                  01 · Identidad y logo<br/>
+                  02 · Paleta de color<br/>
+                  03 · Tipografía<br/>
+                  04 · Iconografía<br/>
+                  05 · Dashboard web<br/>
+                  06 · App móvil (8 pantallas)<br/>
+                  07 · Plantillas Facebook<br/>
+                  08 · Formato WhatsApp<br/>
+                  09 · Imágenes institucionales<br/>
+                  10 · Voz de marca y lemas
+                </div>
+              </div>
+              <div style={{ borderLeft: '1px solid rgba(255,255,255,.2)', paddingLeft: 24, maxWidth: 280 }}>
+                <div className="mono" style={{ fontSize: 10, color: '#E8A21C', letterSpacing: '.15em', textTransform: 'uppercase' }}>Lema</div>
+                <div style={{ fontSize: 22, fontWeight: 500, marginTop: 8, letterSpacing: '-0.01em', lineHeight: 1.2 }}>
+                  No generamos pánico:<br/><span style={{ color: '#E8A21C' }}>generamos prevención.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DCArtboard>
+        <DCArtboard id="intro-context" label="00 · Contexto y razonamiento" width={520} height={520}>
+          <div className="sircom" style={{ width: '100%', height: '100%', background: '#fff', padding: 32, overflow: 'auto' }}>
+            <div className="mono" style={{ fontSize: 10, color: '#7A8294', letterSpacing: '.15em', textTransform: 'uppercase' }}>Razonamiento de diseño</div>
+            <h3 style={{ fontSize: 18, fontWeight: 500, margin: '8px 0 16px', letterSpacing: '-0.01em' }}>Decisiones clave</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, fontSize: 12, color: '#4A5468', lineHeight: 1.55 }}>
+              <div><strong style={{ color: '#0F1B2D' }}>Tono · plataforma de inteligencia, no medio.</strong> Tomamos como referencia centros de mando de datos institucionales (Bloomberg / Palantir-light), no portales policiales ni de noticias. Esto se logra con tabular-nums, monospace para timestamps/IDs, y jerarquía contenida.</div>
+              <div><strong style={{ color: '#0F1B2D' }}>Color · azul como estructura, ámbar como excepción.</strong> El azul profundo da confianza; verde se reserva a comunidad y operación civil; ámbar a alertas preventivas; rojo SOLO a riesgo crítico para no sensibilizar al usuario.</div>
+              <div><strong style={{ color: '#0F1B2D' }}>Tipografía · IBM Plex.</strong> Pareja gratuita, técnica y muy legible en pantallas y print. Plex Sans para UI/reportes; Plex Mono para datos, IDs, timestamps y eyebrows.</div>
+              <div><strong style={{ color: '#0F1B2D' }}>Logo · territorio + radar.</strong> Silueta abstracta de Morelos con radar central que pulsa. Lee como protección territorial y como sistema activo de monitoreo, sin gestualidad militar/policial.</div>
+              <div><strong style={{ color: '#0F1B2D' }}>Iconos · monoline 1.6 stroke 24px.</strong> Geometría neutral, sin metáforas agresivas (sin balas, sin esposas). Los radares de salud y comunidad usan formas suaves.</div>
+              <div><strong style={{ color: '#0F1B2D' }}>Voz · responsable y técnica.</strong> "Información preventiva de fuentes abiertas. No sustituye avisos oficiales." es la nota legal omnipresente.</div>
+            </div>
+          </div>
+        </DCArtboard>
+        <DCPostIt x={920} y={20} width={220}>
+          Lee de izquierda a derecha — cada sección es un módulo. Click en cualquier artboard para abrirlo en pantalla completa.
+        </DCPostIt>
+      </DCSection>
+
+      {/* LOGO */}
+      <DCSection id="logo" title="01 · Logo e identidad" subtitle="Marca principal, isotipo y variaciones">
+        <DCArtboard id="logo-system" label="Sistema de logo" width={880} height={680}>
+          <window.SircomLogos/>
+        </DCArtboard>
+      </DCSection>
+
+      {/* PALETTE */}
+      <DCSection id="palette" title="02 · Paleta de color" subtitle="Colores institucionales y niveles de alerta">
+        <DCArtboard id="palette-main" label="Sistema de color" width={880} height={680}>
+          <window.SircomPalette/>
+        </DCArtboard>
+      </DCSection>
+
+      {/* TYPE */}
+      <DCSection id="type" title="03 · Tipografía" subtitle="IBM Plex Sans + Plex Mono">
+        <DCArtboard id="type-main" label="Sistema tipográfico" width={880} height={620}>
+          <window.SircomType/>
+        </DCArtboard>
+      </DCSection>
+
+      {/* ICONS */}
+      <DCSection id="icons" title="04 · Iconografía" subtitle="Sistema monoline · 24px · radares y UI">
+        <DCArtboard id="icons-main" label="Sistema de íconos" width={880} height={760}>
+          <window.SircomIconGrid/>
+        </DCArtboard>
+      </DCSection>
+
+      {/* DASHBOARD */}
+      <DCSection id="dashboard" title="05 · Dashboard web" subtitle="Centro de mando — interactivo · click en filtros, mapa y eventos">
+        <DCArtboard id="dash-main" label="Centro de mando · 1280×820" width={1280} height={820}>
+          <window.SircomDashboard width={1280} height={820}/>
+        </DCArtboard>
+        <DCPostIt x={20} y={840} width={260}>
+          Es interactivo — click en chips de radar para filtrar, click en municipios del mapa, click en eventos para ver detalle en el panel derecho.
+        </DCPostIt>
+      </DCSection>
+
+      {/* MOBILE */}
+      <DCSection id="mobile" title="06 · App móvil" subtitle="Las 8 pantallas del brief">
+        <DCArtboard id="mobile-set" label="Pantallas SIRCOM móvil" width={1408} height={780}>
+          <window.SircomMobileSet/>
+        </DCArtboard>
+      </DCSection>
+
+      {/* FACEBOOK */}
+      <DCSection id="facebook" title="07 · Plantillas Facebook" subtitle="Reporte 6h, alertas por radar, resúmenes">
+        <DCArtboard id="fb-set" label="Plantillas FB · 1080×1080" width={1180} height={800}>
+          <window.SircomFacebook/>
+        </DCArtboard>
+      </DCSection>
+
+      {/* WHATSAPP */}
+      <DCSection id="whatsapp" title="08 · Formato WhatsApp" subtitle="Alertas breves para móvil">
+        <DCArtboard id="wa-main" label="WhatsApp · estructura fija" width={880} height={620}>
+          <window.SircomWhatsApp/>
+        </DCArtboard>
+      </DCSection>
+
+      {/* IMAGERY */}
+      <DCSection id="imagery" title="09 · Imágenes institucionales" subtitle="Dirección fotográfica · placeholders">
+        <DCArtboard id="img-main" label="Dirección fotográfica" width={880} height={580}>
+          <window.SircomImagery/>
+        </DCArtboard>
+      </DCSection>
+
+      {/* VOICE */}
+      <DCSection id="voice" title="10 · Voz de marca y lemas" subtitle="Personalidad, tono, frases clave">
+        <DCArtboard id="voice-main" label="Voz · personalidad · lemas" width={880} height={640}>
+          <window.SircomVoice/>
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

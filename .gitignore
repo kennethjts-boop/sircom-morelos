@@ -1,0 +1,33 @@
+# Dependencias
+node_modules/
+package-lock.json
+
+# Entorno y secretos
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+tokens/
+credenciales/
+
+# Archivos de datos y salidas
+data/*
+!data/.gitkeep
+outputs/*
+!outputs/.gitkeep
+logs/
+*.log
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Build y caché
+dist/
+build/
+coverage/
+.cache/
+.vercel/
+.railway/
+.next/
