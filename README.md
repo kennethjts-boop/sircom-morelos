@@ -36,7 +36,7 @@ Para garantizar un comportamiento ético y legal, el sistema se rige bajo estric
 - No publica automáticamente en redes sociales en esta fase.
 
 ## Estado actual del proyecto
-Actualmente se encuentra en la **Fase 3.1** productiva:
+Actualmente se encuentra en la **Fase 4.1** de consolidación del dashboard MVP:
 - Motor OSINT backend completado.
 - Scrapers iniciales funcionales.
 - Normalización y sanitización robusta.
@@ -132,5 +132,7 @@ Se expone un servidor Express local/remoto con los siguientes endpoints:
 5. Observa los logs para verificar el primer "Escaneo oficial".
 6. Todo correrá en background de manera persistente.
 
-## Próxima fase
-Fase 4 — Dashboard web SIRCOM (Interfaz para consulta de mapa y alertas interactivas).
+## Estado de Fase 4.1
+Versión: `v0.4.1-dashboard-mvp-consolidado`
+
+Estado: Dashboard MVP funcional integrado al backend Express, con filtros, paginación, manejo de errores y paneles de monitoreo preventivo.

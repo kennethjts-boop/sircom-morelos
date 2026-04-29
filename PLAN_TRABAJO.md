@@ -46,7 +46,7 @@
 - mejorar API status
 
 ## Fase 4 — Dashboard web
-**Estado:** Pendiente.
+**Estado:** Completado (Fase 4.1 consolidación MVP).
 **Objetivo:** Crear interfaz visual interactiva para consultar el sistema.
 **Debe incluir:**
 - estado general de Morelos
@@ -60,6 +60,10 @@
 - botón ejecutar scan
 - semáforo de riesgo
 - mapa o placeholder geográfico
+
+## Fase 4.2 — Mapa interactivo y mejoras UX
+**Estado:** Pendiente.
+**Objetivo:** Incorporar mapa interactivo municipal y mejoras de experiencia de usuario manteniendo enfoque preventivo.
 
 ## Fase 5 — Integración Supabase real y Railway
 **Estado:** Pendiente.

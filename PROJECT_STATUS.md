@@ -1,13 +1,13 @@
 # Estado Actual — SIRCOM Morelos
 
 ## Fecha de actualización
-27 de Abril de 2026 (Local)
+29 de Abril de 2026 (Local)
 
 ## Versión
-v0.3.1-backend-productivo
+v0.4.1-dashboard-mvp-consolidado
 
 ## Estado general
-El motor OSINT backend de SIRCOM se encuentra funcional, estable y debidamente calibrado para ejecutarse en entornos locales. Dispone de un fallback local resiliente en JSON, estando simultáneamente preparado y configurado a nivel código para conectarse a Supabase y enviar alertas vía Telegram.
+El motor OSINT backend de SIRCOM se mantiene funcional y estable. Además, ahora existe un Dashboard web MVP integrado en el mismo servidor Express para visualizar estado general, semáforo, hallazgos, reporte más reciente y estado de fuentes, con disparo manual de escaneo oficial.
 
 ## Funcionalidades operativas
 - Escaneo OSINT de fuentes públicas y oficiales.
