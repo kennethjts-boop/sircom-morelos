@@ -1,0 +1,55 @@
+<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>SIRCOM Morelos Dashboard</title>
+<style>
+:root{--bg:#eef2f7;--card:#fff;--text:#1c2b4a;--blue:#11336e;--ok:#2f9e44;--warn:#f08c00;--mid:#fab005;--bad:#e03131;--soft:#dbe4f5}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,sans-serif} .wrap{max-width:1200px;margin:auto;padding:14px}
+.card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.07);margin-bottom:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;background:var(--blue);color:#fff;padding:10px 12px;border-radius:8px;cursor:pointer}.btn:disabled{opacity:.5}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.small{font-size:12px;color:#4b5a78}
+.bar{background:#edf2ff;border-radius:999px;overflow:hidden}.bar>span{display:block;height:10px;background:var(--blue)}
+table{width:100%;border-collapse:collapse;min-width:980px}th,td{border-bottom:1px solid var(--soft);padding:7px;font-size:13px;text-align:left}
+.scroll{overflow:auto}.r-ROJO{color:var(--bad)}.r-NARANJA{color:var(--warn)}.r-AMARILLO{color:var(--mid)}.r-VERDE{color:var(--ok)}
+@media(max-width:768px){.wrap{padding:10px}.btn{flex:1}}
+</style></head><body><div class="wrap">
+<h1>SIRCOM Morelos — Monitoreo preventivo</h1>
+<div class="card small">SIRCOM Morelos genera información preventiva basada en fuentes abiertas, datos oficiales y señales públicas. No sustituye avisos oficiales, no constituye denuncia, investigación penal ni acusación contra personas.</div>
+<div class="card"><div id="status">Cargando estado...</div><div class="row"><button class="btn" id="scanBtn">Ejecutar scan oficial</button><button class="btn" id="refreshBtn">Actualizar</button></div><div id="scanMsg" class="small"></div></div>
+<div class="grid" id="riskCards"></div>
+<div class="card"><h3>Tarjetas por radar</h3><div class="grid" id="radarCards"></div></div>
+<div class="card"><h3>Gráficas simples</h3><div id="graphs"></div></div>
+<div class="card"><h3>Mapa de vigilancia territorial — Morelos</h3><div id="geo"></div><p class="small">Mapa interactivo pendiente para Fase 4.2</p></div>
+<div class="card"><h3>Último reporte técnico</h3><div class="row"><button class="btn" id="copyReport">Copiar reporte completo</button><button class="btn" id="copyWa">Copiar WhatsApp</button><button class="btn" id="copyFb">Copiar Facebook</button></div><pre id="report" class="small" style="white-space:pre-wrap"></pre></div>
+<div class="card"><h3>Estado de fuentes</h3><div id="sources"></div></div>
+<div class="card"><h3>Hallazgos</h3>
+<div class="row"><input id="q" placeholder="Buscar texto"><input id="mun" placeholder="Municipio"><input id="cat" placeholder="Categoría"><select id="risk"><option value="">Riesgo</option><option>ROJO</option><option>NARANJA</option><option>AMARILLO</option><option>VERDE</option></select><input id="conf" placeholder="Confianza"><button class="btn" id="clear">Limpiar filtros</button></div>
+<div class="scroll"><table><thead><tr><th>Fecha</th><th>Categoría</th><th>Municipio</th><th>Título/Resumen</th><th>Riesgo</th><th>Confianza</th><th>Fuente</th><th>Enlace</th></tr></thead><tbody id="rows"></tbody></table></div>
+<div class="row"><button class="btn" id="prev">Anterior</button><span id="page" class="small"></span><button class="btn" id="next">Siguiente</button></div></div>
+</div>
+<script>
+const $=s=>document.querySelector(s); let allFindings=[],filtered=[],page=1,pageSize=10,lastReport='';
+const riskRank={VERDE:0,AMARILLO:1,NARANJA:2,ROJO:3}; const radarList=['PROTECCION_CIVIL','LLUVIA_TORMENTA','RIO_INUNDACION','INCENDIO','SISMO','VOLCAN_CENIZA','SEGURIDAD_CIUDADANA','SALUD_PUBLICA','CALOR_EXTREMO','MOVILIDAD','RIESGO_ESCOLAR','SERVICIOS_BASICOS','DESINFORMACION','APOYOS_PROGRAMAS','CONVOCATORIAS'];
+function safe(v,d='No especificado'){return v??d}
+async function api(url,opt){try{const r=await fetch(url,opt);if(!r.ok) throw new Error(`HTTP ${r.status}`); return await r.json();}catch(e){return {__error:e.message}}}
+function riskClass(r){return `r-${r||'VERDE'}`}
+function buildBars(title,obj){const max=Math.max(1,...Object.values(obj||{}));const items=Object.entries(obj||{}).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div><div class='small'>${k}: ${v}</div><div class='bar'><span style='width:${(v/max)*100}%'></span></div></div>`).join('');return `<h4>${title}</h4>${items||"<p class='small'>Sin datos.</p>"}`}
+function applyFilters(){const q=$('#q').value.toLowerCase(),mun=$('#mun').value.toLowerCase(),cat=$('#cat').value.toLowerCase(),risk=$('#risk').value,conf=$('#conf').value.toLowerCase();filtered=allFindings.filter(f=>{const t=JSON.stringify(f).toLowerCase();return (!q||t.includes(q))&&(!mun||safe(f.location,'').toLowerCase().includes(mun))&&(!cat||safe(f.category,'').toLowerCase().includes(cat))&&(!risk||f.risk_level===risk)&&(!conf||safe(f.confidence_level,'').toLowerCase().includes(conf));}); page=1; renderTable();}
+function renderTable(){const totalPages=Math.max(1,Math.ceil(filtered.length/pageSize)); if(page>totalPages) page=totalPages; const start=(page-1)*pageSize; const rows=filtered.slice(start,start+pageSize).map(f=>`<tr><td>${new Date(f.detected_at).toLocaleString()}</td><td>${safe(f.category)}</td><td>${safe(f.location)}</td><td>${safe(f.title)}</td><td class='${riskClass(f.risk_level)}'>${safe(f.risk_level)}</td><td>${safe(f.confidence_level)}</td><td>${safe(f.source)}</td><td>${f.url?`<a href='${f.url}' target='_blank'>Ver</a>`:'-'}</td></tr>`).join('');$('#rows').innerHTML=rows||"<tr><td colspan='8'>Sin hallazgos para filtros actuales.</td></tr>";$('#page').textContent=`Página ${page}/${totalPages} · ${filtered.length} resultados`;}
+function renderRadarCards(){const now=Date.now(),h6=6*3600*1000,h24=24*3600*1000;$('#radarCards').innerHTML=radarList.map(r=>{const rows=allFindings.filter(f=>(f.category||'').toUpperCase()===r);const c24=rows.filter(f=>now-new Date(f.detected_at).getTime()<=h24),c6=rows.filter(f=>now-new Date(f.detected_at).getTime()<=h6);const maxRisk=rows.reduce((a,b)=>riskRank[b.risk_level]>riskRank[a]?b.risk_level:a,'VERDE');const muni=(rows[0]?.location)||'No especificado';const last=rows[0]?.title||'Sin hallazgos';return `<div class='card'><strong class='${riskClass(maxRisk)}'>${r}</strong><div class='small'>24h: ${c24.length} · 6h: ${c6.length}</div><div class='small'>Nivel máximo: ${maxRisk}</div><div class='small'>Municipio principal: ${muni}</div><div class='small'>Último hallazgo: ${last}</div></div>`}).join('')}
+async function load(){
+ $('#status').textContent='Cargando datos...';
+ const [st,fi,re,so]=await Promise.all([api('/api/status'),api('/api/findings?limit=500'),api('/api/reports/latest'),api('/api/sources/status')]);
+ if(st.__error){$('#status').textContent=`Backend no disponible: ${st.__error}`;return}
+ $('#status').textContent=`Modo: ${st.mode} | Supabase: ${st.supabaseConfigured?'configurado':'no configurado'} | Telegram: ${st.telegramConfigured?'configurado':'no configurado'} | Hallazgos 6h: ${st.findingsLast6h} | Hallazgos 24h: ${st.findingsLast24h}`;
+ $('#riskCards').innerHTML=['ROJO','NARANJA','AMARILLO','VERDE'].map(k=>`<div class='card'><div class='${riskClass(k)}'><b>${k}</b></div><div>${(st.riskDistribution||{})[k]||0}</div><div class='small'>Señal preventiva</div></div>`).join('');
+ allFindings=(fi.findings||[]); filtered=[...allFindings]; renderTable(); renderRadarCards();
+ $('#graphs').innerHTML=buildBars('Distribución por riesgo',st.riskDistribution)+buildBars('Distribución por categoría',st.categoryDistribution)+buildBars('Hallazgos por municipio',st.municipalityDistribution);
+ const topM=Object.entries(st.municipalityDistribution||{}).sort((a,b)=>b[1]-a[1]).slice(0,5); $('#geo').innerHTML=topM.length?topM.map(([m,n],i)=>`<div class='small'>${i+1}. ${m} — ${n} hallazgos (Monitoreo recomendado)</div>`).join(''):"<p class='small'>Sin actividad reciente.</p>";
+ if(re.__error){$('#report').textContent='No hay reporte disponible. Puedes ejecutar un scan para generar nueva información.';} else {lastReport=(re.content_markdown||'');$('#report').textContent=`${re.title||'Reporte'}\nFecha: ${re.created_at||'N/A'}\nNivel general: ${Object.entries(st.riskDistribution||{}).sort((a,b)=>riskRank[b[0]]-riskRank[a[0]])[0]?.[0]||'VERDE'}\nTotal hallazgos 24h: ${st.findingsLast24h}\n\n${lastReport}`;}
+ const src=(so.sources||[]).map(s=>`<div class='small'><b>${s.name}</b> · ${s.active?'Activa':'Inactiva'} · ${s.type==='official'?'Fuente oficial':'Fuente secundaria'} · Último éxito: ${s.last_success||'N/A'} · Último error: ${s.last_error||'N/A'} · Confiabilidad base: ${s.reliability_base||'N/A'}</div>`).join(''); $('#sources').innerHTML=src||"<p class='small'>Sin datos de fuentes.</p>";
+}
+$('#refreshBtn').onclick=load; $('#q').oninput=applyFilters; $('#mun').oninput=applyFilters; $('#cat').oninput=applyFilters; $('#risk').onchange=applyFilters; $('#conf').oninput=applyFilters;
+$('#clear').onclick=()=>{$('#q').value='';$('#mun').value='';$('#cat').value='';$('#risk').value='';$('#conf').value='';applyFilters()};
+$('#prev').onclick=()=>{page=Math.max(1,page-1);renderTable()}; $('#next').onclick=()=>{page++;renderTable()};
+$('#copyReport').onclick=()=>navigator.clipboard.writeText($('#report').textContent||''); $('#copyWa').onclick=()=>navigator.clipboard.writeText('SIRCOM Morelos: señal preventiva con base en monitoreo recomendado y fuentes oficiales.'); $('#copyFb').onclick=()=>navigator.clipboard.writeText('SIRCOM Morelos informa: reporte no verificado de forma preventiva para seguimiento comunitario.');
+$('#scanBtn').onclick=async()=>{const b=$('#scanBtn'); b.disabled=true; b.textContent='Escaneo en proceso...'; const r=await api('/api/scan/official',{method:'POST'}); $('#scanMsg').textContent=r.message||'El escaneo fue iniciado. Actualiza en unos segundos para ver nuevos resultados.'; b.textContent='Ejecutar scan oficial'; b.disabled=false;};
+load();
+</script></body></html>

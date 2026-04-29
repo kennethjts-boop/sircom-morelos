@@ -1,3 +1,10 @@
+## v0.4.1 — Dashboard MVP consolidado
+- Consolidación de dashboard web con manejo robusto de loading/error/estados vacíos.
+- Filtros avanzados de hallazgos (texto, municipio, categoría, riesgo, confianza) y paginación.
+- Tarjetas por radar, gráficas simples CSS y panel territorial top municipios.
+- Mejora de `/api/status` con estructura extendida y fallbacks seguros.
+- Estado de fuentes con mensajes técnicos preventivos y sin alarmismo.
+
 # Changelog — SIRCOM Morelos
 
 ## v0.3.1 — Calibración y Confiabilidad
